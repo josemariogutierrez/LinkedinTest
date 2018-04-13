@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+    <title>Test Linkedin Api</title>
+
+    <script type="text/javascript" src="//platform.linkedin.com/in.js">
+      api_key:   783oqfnjr9oxm8
+      authorize: true
+      onLoad:    onLinkedInLoad
+      lang:      en_US
+      scope:     r_basicprofile r_emailaddress
+    </script>
+    <script type="text/javascript">
+      // Setup an event listener to make an API call once auth is complete
+      function onLinkedInLoad() {
+          IN.Event.on(IN, "auth", getProfileData);
+          console.log('Loaded!');
+      }
+      
+      // Use the API call wrapper to request the member's profile data
+      function getProfileData() {
+          IN.API.Profile("me").fields("id", "first-name", "last-name", "headline", "summary", "num-connections-capped", "location", "picture-url", "public-profile-url", "email-address").result(displayProfileData).error(onError);
+      }
+    
+      // Handle the successful return from the API call
+      function displayProfileData(data){
+          var user = data.values[0];
+          console.log(user.numConnectionsCapped);
+          document.getElementById("picture").innerHTML = '<img src="'+user.pictureUrl+'" />';
+          document.getElementById("name").innerHTML = user.firstName+' '+user.lastName;
+          document.getElementById("intro").innerHTML = user.headline;
+          document.getElementById("email").innerHTML = user.emailAddress;
+          document.getElementById("location").innerHTML = user.location.name;
+          document.getElementById("summary").innerHTML = user.summary;
+          document.getElementById("link").innerHTML = '<a href="'+user.publicProfileUrl+'" target="_blank">Visit profile</a>';
+          document.getElementById('profileData').style.display = 'block';
+      }
+    
+      // Handle an error response from the API call
+      function onError(error) {
+          console.log(error);
+      }
+      
+      // Destroy the session of linkedin
+      function logout(){
+          IN.User.logout(removeProfileData);
+      }
+      
+      // Remove profile data from page
+      function removeProfileData(){
+          document.getElementById('profileData').remove();
+      }
+    </script>
+</head>
+<body>
+   
+
+
+<h1>Test Api</h1>
+<!-- display profile info -->
+<div id="profileData" style="display: none;">
+  <p><a href="javascript:void(0);" onclick="logout()">Logout</a></p>
+  <div id="picture"></div>
+  <div class="info">
+      <p id="name"></p>
+      <p id="intro"></p>
+      <p id="email"></p>
+      <p id="location"></p>
+      <p id="summary"></p>
+      <p id="link"></p>
+  </div>
+</div>
+<!-- sign in with linkedin button -->
+<script type="in/Login"></script>
+<script>
+
+// fetch('https://api.linkedin.com/v1/people/~?format=json', {mode: 'no-cors'})
+//   .then(function (data) {
+//     console.log(data);
+//   })
+//   .catch(function (error) {
+//     console.log('an error has ocurred');
+//     console.log(error);
+//   });
+
+  // fetch('https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=783oqfnjr9oxm8&redirect_uri=http%3A%2F%2Flocalhost:4000%2Fauth%2Flinkedin&state=987654321&scope=r_basicprofile', {mode: 'no-cors'})
+  // .then(function (data) {
+  //   console.log(data);
+  // })
+  // .catch(function (error) {
+  //   console.log('an error has ocurred');
+  //   console.log(error);
+  // });
+
+
+
+
+  // const displayUsers = (array, output) => {
+  //   const html = array.map(function (user) {
+  //     return `
+  //       <li class="ac-results__item">
+  //       <a href="${user.html_url}" alt="${user.login}" target="_blank" class="ac-results__link">
+  //       <img src="${user.avatar_url}" class="ac-results__img">
+  //               <span class="ac-results__username">${user.login}</span>
+  //               <span class="ac-results__score">(Score: ${user.score})</span>
+  //           </a>
+  //       </li>`.replace(/\s+/g, ' ');
+  //   }).join('');
+  //   output.innerHTML = html;
+
+  //}
+</script>
+</body>
+</html>
