@@ -8,7 +8,7 @@
     <title>Test Linkedin Api</title>
 
     <script type="text/javascript" src="//platform.linkedin.com/in.js">
-      api_key:   783oqfnjr9oxm8
+      api_key:   78zvngfoay88wg
       authorize: true
       onLoad:    onLinkedInLoad
       lang:      en_US
@@ -23,8 +23,11 @@
       
       // Use the API call wrapper to request the member's profile data
       function getProfileData() {
-          IN.API.Profile("me").fields("id", "first-name", "last-name", "headline", "summary", "num-connections-capped", "location", "picture-url", "public-profile-url", "email-address").result(displayProfileData).error(onError);
+          IN.API.Profile("me").fields("id", "first-name", "last-name", "headline", "summary", "num-connections-capped", "location", "picture-url", "public-profile-url", "email-address")
+          .result(displayProfileData).error(onError);
+          
       }
+
     
       // Handle the successful return from the API call
       function displayProfileData(data){
